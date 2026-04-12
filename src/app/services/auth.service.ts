@@ -88,7 +88,7 @@ export class AuthService {
     if (!token) return false;
 
     try {
-      const payload = JSON.stringify(atob(token.split('.')[1]));
+      const payload: {exp: number; sub:string; userId:string; role: string} = JSON.parse(atob(token.split('.')[1]))
 
       const now = Math.floor(Date.now() / 1000);
       return payload.exp > now;
@@ -107,6 +107,6 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return this.hasValidToken()
+    return this.hasValidToken();
   }
 }
