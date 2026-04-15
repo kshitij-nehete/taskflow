@@ -72,7 +72,7 @@ export class Signup {
     this.authService.signup({ name, email, password }).subscribe({
       next: (response) => {
         if (response.success) {
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['/dashboard']);
         } else {
           this.errorMessage = response.message || 'Signup failed';
           this.isLoading = false;
