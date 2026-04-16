@@ -1,0 +1,66 @@
+.dashboard-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.welcome-card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.welcome-card h1 {
+  font-size: 28px;
+  color: #1e293b;
+  margin: 0 0 8px;
+}
+
+.welcome-card > p {
+  color: #64748b;
+  margin: 0 0 32px;
+  font-size: 15px;
+}
+
+.status-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.status-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.status-item.done {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+.status-item.pending {
+  background: #fefce8;
+  border: 1px solid #fef08a;
+}
+
+.status-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.status-item strong {
+  color: #1e293b;
+  font-size: 15px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.status-item p {
+  color: #64748b;
+  font-size: 13px;
+  margin: 0;
+}

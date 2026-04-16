@@ -1,1 +1,37 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <div class="welcome-card" *ngIf="currentUser$ | async as user">
+    <h1>Welcome back, {{ user.name }}! 👋</h1>
+    <p>Your TaskFlow dashboard is coming soon. Here's what's been set up so far:</p>
+
+    <div class="status-grid">
+      <div class="status-item done">
+        <span class="status-icon">✅</span>
+        <div>
+          <strong>Authentication</strong>
+          <p>Login, signup, JWT tokens, route guards</p>
+        </div>
+      </div>
+      <div class="status-item done">
+        <span class="status-icon">✅</span>
+        <div>
+          <strong>HTTP Interceptors</strong>
+          <p>Auth token, error handling, loading spinner</p>
+        </div>
+      </div>
+      <div class="status-item done">
+        <span class="status-icon">✅</span>
+        <div>
+          <strong>Shared Components</strong>
+          <p>Header, pipes, loading spinner</p>
+        </div>
+      </div>
+      <div class="status-item pending">
+        <span class="status-icon">🔜</span>
+        <div>
+          <strong>Projects & Tasks</strong>
+          <p>Coming in Steps 8 & 9</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
