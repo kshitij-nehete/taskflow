@@ -1,0 +1,4 @@
+<!-- Only visible when isLoading$ emits true -->
+<div class="loading-bar" *ngIf="loadingService.isLoading$ | async">
+  <div class="loading-bar-progress"></div>
+</div>
