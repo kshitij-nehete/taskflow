@@ -1,1 +1,99 @@
-<p>project-list works!</p>
+<div class="page-container">
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1>Projects</h1>
+      <p class="subtitle">Manage your TaskFlow projects</p>
+    </div>
+    <button class="btn-primary" (click)="showCreateForm = true">+ New Project</button>
+  </div>
+
+  <!-- CREATE PROJECT FORM (inline) -->
+  <div class="create-form" *ngIf="showCreateForm">
+    <h3>Create New Project</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Project Name</label>
+        <input
+          type="text"
+          placeholder="Enter project name"
+          [(ngModel)]="newProject.name"
+          [class.input-error]="formSubmitted && !newProject.name"
+        />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input type="text" placeholder="Brief description" [(ngModel)]="newProject.description" />
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-primary" (click)="createProject()" [disabled]="isCreating">
+        {{ isCreating ? 'Creating...' : 'Create Project' }}
+      </button>
+      <button class="btn-secondary" (click)="cancelCreate()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- LOADING STATE -->
+  <div class="state-message" *ngIf="isLoading">Loading projects...</div>
+
+  <!-- ERROR STATE -->
+  <div class="state-message error" *ngIf="errorMessage">
+    {{ errorMessage }}
+    <button class="btn-retry" (click)="loadProjects()">Try Again</button>
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div class="state-message empty" *ngIf="!isLoading && !errorMessage && projects.length === 0">
+    <span class="empty-icon">📁</span>
+    <p>No projects yet. Create your first project!</p>
+  </div>
+
+  <!-- PROJECT LIST -->
+  <div class="project-grid" *ngIf="!isLoading && projects.length > 0">
+    <div class="project-card" *ngFor="let project of projects; trackBy: trackByProjectId">
+      <!--
+            trackBy: trackByProjectId
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+            Teacher recognizing students by roll number.
+            When the list updates, Angular only redraws CHANGED cards,
+            not all of them. Without trackBy, all cards get destroyed
+            and recreated — wasteful for large lists.
+          -->
+
+      <!-- EDIT MODE -->
+      <div *ngIf="editingProjectId === project.id; else viewMode">
+        <div class="form-group">
+          <input type="text" [(ngModel)]="editProject.name" placeholder="Project name" />
+        </div>
+        <div class="form-group">
+          <input type="text" [(ngModel)]="editProject.description" placeholder="Description" />
+        </div>
+        <div class="form-actions">
+          <button class="btn-save" (click)="saveEdit(project.id)">Save</button>
+          <button class="btn-secondary" (click)="cancelEdit()">Cancel</button>
+        </div>
+      </div>
+
+      <!-- VIEW MODE -->
+      <ng-template #viewMode>
+        <div class="card-header">
+          <h3 class="card-title">{{ project.name }}</h3>
+          <div class="card-actions">
+            <button class="btn-icon" (click)="startEdit(project)" title="Edit">✏️</button>
+            <button class="btn-icon danger" (click)="deleteProject(project)" title="Delete">
+              🗑️
+            </button>
+          </div>
+        </div>
+        <p class="card-desc">{{ project.description || 'No description' }}</p>
+        <div class="card-footer">
+          <span class="card-date" *ngIf="project.createdAt">
+            Created {{ project.createdAt | timeAgo }}
+          </span>
+          <button class="btn-view" (click)="viewTasks(project)">View Tasks →</button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
