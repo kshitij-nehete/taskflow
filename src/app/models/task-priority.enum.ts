@@ -1,4 +1,5 @@
 export enum TaskPriority {
-  USER = 'USER',
-  ADMIN = 'ADMIN',
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH'
 }
