@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -18,11 +18,11 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-task-board',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, TaskCard, StatusLabelPipe],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TaskCard],
   templateUrl: './task-board.html',
   styleUrl: './task-board.css',
 })
-export class TaskBoard {
+export class TaskBoard implements OnInit, OnDestroy{
   allTasks: TaskItem[] = [];
   filteredTasks: TaskItem[] = [];
   projects: Project[] = [];
@@ -67,7 +67,9 @@ export class TaskBoard {
     });
   }
 
-  ngOnInIt(): void {
+  ngOnInit(): void {
+    console.log("Coloumns: ", this.columns);
+    
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       if (params['projectId']) {
         this.projectIdFromRoute = params['projectId'];
@@ -113,7 +115,9 @@ export class TaskBoard {
       .getProjects()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (response) => (this.projects = response.data || []),
+        next: (response) => {
+          this.projects = response.data || [];
+        },
       });
   }
 

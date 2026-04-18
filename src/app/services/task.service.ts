@@ -32,9 +32,8 @@ export class TaskService {
   }
 
   updateTaskStatus(id: string, status: TaskStatus): Observable<ApiResponse<TaskItem>> {
-    const params = new HttpParams();
-    params.set('status', status);
-    return this.http.patch<ApiResponse<TaskItem>>(`${this.apiUrl}/${id}`, null, { params });
+    const params = new HttpParams().set('status', status)
+    return this.http.patch<ApiResponse<TaskItem>>(`${this.apiUrl}/${id}/status`, null, { params });
   }
 
   deleteTask(id: string): Observable<ApiResponse<void>> {

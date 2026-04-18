@@ -25,13 +25,28 @@
   <!-- STATUS BUTTONS -->
   <div class="status-actions">
     <button
-      *ngFor="let status of statuses"
       class="btn-status"
-      [class.active]="task.status === status"
-      [disabled]="task.status === status"
-      (click)="onStatusChange.emit({ task: task, newStatus: status })"
+      [class.active]="task.status === 'TODO'"
+      [disabled]="task.status === 'TODO'"
+      (click)="onStatusChange.emit({ task: task, newStatus: statuses[0] })"
     >
-      {{ status | statusLabel }}
+      To Do
+    </button>
+        <button
+      class="btn-status"
+      [class.active]="task.status === 'IN_PROGRESS'"
+      [disabled]="task.status === 'IN_PROGRESS'"
+      (click)="onStatusChange.emit({ task: task, newStatus: statuses[1] })"
+    >
+      In Progress
+    </button>
+        <button
+      class="btn-status"
+      [class.active]="task.status === 'DONE'"
+      [disabled]="task.status === 'DONE'"
+      (click)="onStatusChange.emit({ task: task, newStatus: statuses[2] })"
+    >
+      Done
     </button>
   </div>
 

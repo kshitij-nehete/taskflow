@@ -26,7 +26,9 @@
     <!-- Status filter -->
     <select [(ngModel)]="selectedStatus" (ngModelChange)="applyFilters()" class="filter-select">
       <option value="">All Statuses</option>
-      <option *ngFor="let s of statuses" [value]="s">{{ s | statusLabel }}</option>
+      <option value="TODO">To Do</option>
+      <option value="TODO">In_PROGRESS</option>
+      <option value="TODO">DONE</option>
     </select>
 
     <!-- Priority filter -->
@@ -85,7 +87,9 @@
           <div class="form-group">
             <label>Status</label>
             <select formControlName="status">
-              <option *ngFor="let s of statuses" [value]="s">{{ s | statusLabel }}</option>
+              <option value="TODO">To Do</option>
+              <option value="IN_PRORESS">In Progress</option>
+              <option value="DONE">Done</option>
             </select>
           </div>
         </div>
