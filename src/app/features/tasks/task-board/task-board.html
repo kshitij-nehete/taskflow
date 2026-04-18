@@ -1,1 +1,161 @@
-<p>task-board works!</p>
+<div class="page-container">
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1>{{ projectName || 'My Tasks' }}</h1>
+      <p class="subtitle">
+        {{ filteredTasks.length }} task{{ filteredTasks.length !== 1 ? 's' : '' }}
+      </p>
+    </div>
+    <button class="btn-primary" (click)="showTaskForm = true">+ New Task</button>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters-bar">
+    <!-- Project filter (if no specific project selected) -->
+    <select
+      [(ngModel)]="selectedProjectId"
+      (ngModelChange)="loadTasks()"
+      *ngIf="!projectIdFromRoute"
+      class="filter-select"
+    >
+      <option value="">All Projects</option>
+      <option *ngFor="let p of projects" [value]="p.id">{{ p.name }}</option>
+    </select>
+
+    <!-- Status filter -->
+    <select [(ngModel)]="selectedStatus" (ngModelChange)="applyFilters()" class="filter-select">
+      <option value="">All Statuses</option>
+      <option *ngFor="let s of statuses" [value]="s">{{ s | statusLabel }}</option>
+    </select>
+
+    <!-- Priority filter -->
+    <select [(ngModel)]="selectedPriority" (ngModelChange)="applyFilters()" class="filter-select">
+      <option value="">All Priorities</option>
+      <option value="HIGH">High</option>
+      <option value="MEDIUM">Medium</option>
+      <option value="LOW">Low</option>
+    </select>
+
+    <!-- Search -->
+    <input
+      type="text"
+      placeholder="Search tasks..."
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="applyFilters()"
+      class="search-input"
+    />
+  </div>
+
+  <!-- CREATE/EDIT TASK FORM -->
+  <div class="task-form-overlay" *ngIf="showTaskForm">
+    <div class="task-form-card">
+      <h3>{{ editingTaskId ? 'Edit Task' : 'Create New Task' }}</h3>
+      <form [formGroup]="taskForm" (ngSubmit)="onSubmitTask()">
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" formControlName="title" placeholder="Task title" />
+          <div
+            class="error-text"
+            *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched"
+          >
+            Title is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea
+            formControlName="description"
+            placeholder="Task description"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Priority</label>
+            <select formControlName="priority">
+              <option value="LOW">Low</option>
+              <option value="MEDIUM">Medium</option>
+              <option value="HIGH">High</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Status</label>
+            <select formControlName="status">
+              <option *ngFor="let s of statuses" [value]="s">{{ s | statusLabel }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Project</label>
+            <select formControlName="projectId">
+              <option value="">Select project</option>
+              <option *ngFor="let p of projects" [value]="p.id">{{ p.name }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Due Date</label>
+            <input type="date" formControlName="dueDate" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" [disabled]="taskForm.invalid || isSaving">
+            {{ isSaving ? 'Saving...' : editingTaskId ? 'Update Task' : 'Create Task' }}
+          </button>
+          <button type="button" class="btn-secondary" (click)="cancelTaskForm()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- LOADING STATE -->
+  <div class="state-message" *ngIf="isLoading">Loading tasks...</div>
+
+  <!-- ERROR STATE -->
+  <div class="state-message error" *ngIf="errorMessage">
+    {{ errorMessage }}
+    <button class="btn-retry" (click)="loadTasks()">Try Again</button>
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div
+    class="state-message empty"
+    *ngIf="!isLoading && !errorMessage && filteredTasks.length === 0"
+  >
+    <span class="empty-icon">✅</span>
+    <p>No tasks found. Create your first task!</p>
+  </div>
+
+  <!-- TASK BOARD — 3 columns: TODO | IN_PROGRESS | DONE -->
+  <div class="board" *ngIf="!isLoading && filteredTasks.length > 0">
+    <div class="board-column" *ngFor="let col of columns">
+      <div class="column-header" [style.borderColor]="col.color">
+        <h3>{{ col.label }}</h3>
+        <span class="column-count">{{ getTasksByStatus(col.status).length }}</span>
+      </div>
+      <div class="column-tasks">
+        <app-task-card
+          *ngFor="let task of getTasksByStatus(col.status); trackBy: trackByTaskId"
+          [task]="task"
+          (onStatusChange)="changeTaskStatus($event)"
+          (onEdit)="startEditTask($event)"
+          (onDelete)="deleteTask($event)"
+        />
+        <!--
+              [task]="task"        → @Input: passing data DOWN to the card
+              (onStatusChange)     → @Output: listening for events FROM the card
+              (onEdit)             → @Output: card says "edit me"
+              (onDelete)           → @Output: card says "delete me"
+              trackBy: trackByTaskId → performance: reuse cards by ID
+            -->
+      </div>
+    </div>
+  </div>
+</div>

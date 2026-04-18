@@ -8,4 +8,4 @@ export type { User } from './user.model';
 export type { ApiResponse } from './api-response.model';
 export type { AuthResponse } from './auth.model';
 export type { Project } from './project.model';
-export type { Task } from './task.model';
+export type { TaskItem } from './task.model';
