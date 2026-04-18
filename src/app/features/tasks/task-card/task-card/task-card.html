@@ -1,0 +1,42 @@
+<div class="task-card" [class]="'task-card ' + (task.priority | priorityColor)">
+  <!-- HEADER: Title + Actions -->
+  <div class="card-header">
+    <h4 class="card-title">{{ task.title }}</h4>
+    <div class="card-actions">
+      <button class="btn-icon" (click)="onEdit.emit(task)" title="Edit">✏️</button>
+      <button class="btn-icon danger" (click)="onDelete.emit(task)" title="Delete">🗑️</button>
+    </div>
+  </div>
+
+  <!-- DESCRIPTION -->
+  <p class="card-desc" *ngIf="task.description">{{ task.description }}</p>
+
+  <!-- PRIORITY BADGE -->
+  <div class="card-meta">
+    <span class="badge" [class]="task.priority | priorityColor">
+      {{ task.priority | statusLabel }}
+    </span>
+    <span class="assignee" *ngIf="task.assigneeName"> 👤 {{ task.assigneeName }} </span>
+  </div>
+
+  <!-- DUE DATE -->
+  <div class="card-due" *ngIf="task.dueDate">📅 Due: {{ task.dueDate | date: 'mediumDate' }}</div>
+
+  <!-- STATUS BUTTONS -->
+  <div class="status-actions">
+    <button
+      *ngFor="let status of statuses"
+      class="btn-status"
+      [class.active]="task.status === status"
+      [disabled]="task.status === status"
+      (click)="onStatusChange.emit({ task: task, newStatus: status })"
+    >
+      {{ status | statusLabel }}
+    </button>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="card-footer" *ngIf="task.createdAt">
+    <span class="card-date">{{ task.createdAt | timeAgo }}</span>
+  </div>
+</div>
