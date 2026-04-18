@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { PriorityColorPipe } from '../../../../shared/pipes/priority-color-pipe';
 import { StatusLabelPipe } from '../../../../shared/pipes/status-label-pipe';
 import { TimeAgoPipe } from '../../../../shared/pipes/time-ago-pipe';
-import { TaskStatus } from '../../../../models';
+import { TaskItem, TaskStatus } from '../../../../models';
 
 @Component({
   selector: 'app-task-card',
@@ -14,11 +14,11 @@ import { TaskStatus } from '../../../../models';
   styleUrl: './task-card.css',
 })
 export class TaskCard {
-  @Input({ required: true }) task!: Task;
+  @Input({ required: true }) task!: TaskItem;
 
-  @Output() onStatusChange = new EventEmitter<{ task: Task; newStatus: TaskStatus }>();
-  @Output() onEdit = new EventEmitter<Task>();
-  @Output() onDelete = new EventEmitter<Task>();
+  @Output() onStatusChange = new EventEmitter<{ task: TaskItem; newStatus: TaskStatus }>();
+  @Output() onEdit = new EventEmitter<TaskItem>();
+  @Output() onDelete = new EventEmitter<TaskItem>();
 
   statuses = [TaskStatus.TODO, TaskStatus.IN_PROGRESS, TaskStatus.DONE];
 }

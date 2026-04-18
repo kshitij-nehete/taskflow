@@ -23,8 +23,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './task-board.css',
 })
 export class TaskBoard {
-  allTasks: Task[] = [];
-  filteredTasks: Task[] = [];
+  allTasks: TaskItem[] = [];
+  filteredTasks: TaskItem[] = [];
   projects: Project[] = [];
 
   isLoading = false;
@@ -139,11 +139,11 @@ export class TaskBoard {
     this.filteredTasks = tasks;
   }
 
-  getTasksByStatus(status: TaskStatus): Task[] {
+  getTasksByStatus(status: TaskStatus): TaskItem[] {
     return this.filteredTasks.filter((t) => t.status === status);
   }
 
-  changeTaskStatus(event: { task: Task; newStatus: TaskStatus }): void {
+  changeTaskStatus(event: { task: TaskItem; newStatus: TaskStatus }): void {
     this.taskService
       .updateTaskStatus(event.task.id, event.newStatus)
       .pipe(takeUntil(this.destroy$))
@@ -204,7 +204,7 @@ export class TaskBoard {
     }
   }
 
-  startEditTask(task: Task): void {
+  startEditTask(task: TaskItem): void {
     this.editingTaskId = task.id;
     this.taskForm.patchValue({
       title: task.title,
@@ -218,7 +218,7 @@ export class TaskBoard {
     this.showTaskForm = true;
   }
 
-  deleteTask(task: Task): void {
+  deleteTask(task: TaskItem): void {
     if (!confirm(`Delete "${task.title}"?`)) return;
 
     this.taskService
@@ -247,7 +247,7 @@ export class TaskBoard {
     });
   }
 
-  trackByTaskId(index: number, task: Task): string {
+  trackByTaskId(index: number, task: TaskItem): string {
     return task.id;
   }
 }
