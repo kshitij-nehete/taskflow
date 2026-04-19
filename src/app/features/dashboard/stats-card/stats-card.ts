@@ -10,8 +10,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   styleUrl: './stats-card.css',
 })
 export class StatsCard {
-  @Input({ required: true }) label!: string;
-  @Input({ required: true }) value!: string;
+  @Input() label: string = ''
+  @Input() value: number = 0
   @Input() icon = '📊';
   @Input() color = '#667eea';
   @Input() subtitle = '';
