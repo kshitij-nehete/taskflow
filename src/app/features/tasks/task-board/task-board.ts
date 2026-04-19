@@ -170,6 +170,9 @@ export class TaskBoard implements OnInit, OnDestroy{
 
     if (this.taskForm.invalid) return;
 
+    console.log('Form value being submitted: ', this.taskForm.value);
+    
+
     this.isSaving = true;
     const formValue = this.taskForm.value;
 
@@ -196,6 +199,8 @@ export class TaskBoard implements OnInit, OnDestroy{
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
+            console.log('Task created: ', response.data);
+            
             this.allTasks = [response.data, ...this.allTasks];
             this.applyFilters();
             this.cancelTaskForm();

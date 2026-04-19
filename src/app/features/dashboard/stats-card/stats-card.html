@@ -1,0 +1,8 @@
+<div class="stats-card" [style.borderTopColor]="color">
+  <div class="stats-header">
+    <span class="stats-icon">{{ icon }}</span>
+    <span class="stats-label">{{ label }}</span>
+  </div>
+  <div class="stats-value">{{ value }}</div>
+  <div class="stats-subtitle" *ngIf="subtitle">{{ subtitle }}</div>
+</div>
