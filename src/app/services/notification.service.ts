@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 
 export type NotificationType = 'success' | 'error' | 'info' | 'warning';
 
-export interface Notification {
+export interface ToastNotification {
   id: number;
   message: string;
   type: NotificationType;
@@ -12,14 +12,14 @@ export interface Notification {
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-  private notificationSubject = new Subject<Notification>();
+  private notificationSubject = new Subject<ToastNotification>();
 
   notifcation$ = this.notificationSubject.asObservable();
 
   private nextId = 0;
 
   show(message: string, type: NotificationType = 'info', duration = 3000): void {
-    const notification: Notification = {
+    const notification: ToastNotification = {
       id: ++this.nextId,
       message,
       type,
