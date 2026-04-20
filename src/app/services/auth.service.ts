@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiResponse, AuthResponse, User } from '../models/index';
 import { environment } from '../../environments/environment.prod';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { NotificationService } from './notification.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LoginRequest, SignupRequests } from '../models/auth.model';
@@ -20,6 +21,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private notificationService: NotificationService,
   ) {}
 
   login(credentials: LoginRequest): Observable<ApiResponse<AuthResponse>> {
@@ -31,6 +33,7 @@ export class AuthService {
           localStorage.setItem('current_user', JSON.stringify(response.data.user));
 
           this.isLoggedInSubject.next(true);
+          this.notificationService.success(`Welcome back, ${response.data.user.name}!`);
 
           const user: User = {
             id: response.data.user.id,
@@ -54,6 +57,7 @@ export class AuthService {
           localStorage.setItem('current_user', JSON.stringify(response.data.user));
 
           this.isLoggedInSubject.next(true);
+          this.notificationService.success('Account created successfully');
 
           const user: User = {
             id: response.data.user.id,
@@ -75,6 +79,8 @@ export class AuthService {
     this.isLoggedInSubject.next(false);
     this.currentUserSubject.next(null);
 
+    this.notificationService.success('You have been logged out');
+
     this.router.navigate(['/auth/login']);
   }
 
@@ -88,7 +94,9 @@ export class AuthService {
     if (!token) return false;
 
     try {
-      const payload: {exp: number; sub:string; userId:string; role: string} = JSON.parse(atob(token.split('.')[1]))
+      const payload: { exp: number; sub: string; userId: string; role: string } = JSON.parse(
+        atob(token.split('.')[1]),
+      );
 
       const now = Math.floor(Date.now() / 1000);
       return payload.exp > now;

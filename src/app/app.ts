@@ -6,11 +6,12 @@ import { CommonModule } from '@angular/common';
 
 import { Header } from './shared/components/header/header';
 import { LoadingSpinner } from './shared/components/loading-spinner/loading-spinner';
+import { Notification } from './shared/components/notification/notification';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, LoadingSpinner, Header],
+  imports: [RouterOutlet, CommonModule, LoadingSpinner, Header, Notification],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
