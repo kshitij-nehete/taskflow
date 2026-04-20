@@ -14,6 +14,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { TaskService } from '../../../services/task.service';
 import { ProjectService } from '../../../services/project.service';
 import { ActivatedRoute } from '@angular/router';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-task-board',
@@ -22,7 +23,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './task-board.html',
   styleUrl: './task-board.css',
 })
-export class TaskBoard implements OnInit, OnDestroy{
+export class TaskBoard implements OnInit, OnDestroy {
   allTasks: TaskItem[] = [];
   filteredTasks: TaskItem[] = [];
   projects: Project[] = [];
@@ -56,6 +57,7 @@ export class TaskBoard implements OnInit, OnDestroy{
     private projectService: ProjectService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
+    private notificationService: NotificationService,
   ) {
     this.taskForm = this.fb.group({
       title: ['', [Validators.required]],
@@ -68,8 +70,8 @@ export class TaskBoard implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    console.log("Coloumns: ", this.columns);
-    
+    console.log('Coloumns: ', this.columns);
+
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       if (params['projectId']) {
         this.projectIdFromRoute = params['projectId'];
@@ -158,6 +160,7 @@ export class TaskBoard implements OnInit, OnDestroy{
           );
 
           this.applyFilters();
+          this.notificationService.success(`Task moved to ${event.newStatus.replace('_', ' ')}`);
         },
         error: (err) => {
           this.errorMessage = err.message || 'Failed to update status';
@@ -171,7 +174,6 @@ export class TaskBoard implements OnInit, OnDestroy{
     if (this.taskForm.invalid) return;
 
     console.log('Form value being submitted: ', this.taskForm.value);
-    
 
     this.isSaving = true;
     const formValue = this.taskForm.value;
@@ -187,6 +189,8 @@ export class TaskBoard implements OnInit, OnDestroy{
             );
             this.applyFilters();
             this.cancelTaskForm();
+
+            this.notificationService.success('Task updated');
           },
           error: (err) => {
             this.errorMessage = err.message || 'Failed to update task';
@@ -200,10 +204,11 @@ export class TaskBoard implements OnInit, OnDestroy{
         .subscribe({
           next: (response) => {
             console.log('Task created: ', response.data);
-            
+
             this.allTasks = [response.data, ...this.allTasks];
             this.applyFilters();
             this.cancelTaskForm();
+            this.notificationService.success('Task created');
           },
           error: (err) => {
             this.errorMessage = err.message || 'Failed to create task';
@@ -237,6 +242,7 @@ export class TaskBoard implements OnInit, OnDestroy{
         next: (response) => {
           this.allTasks = this.allTasks.filter((t) => t.id !== task.id);
           this.applyFilters();
+          this.notificationService.success('Task deleted');
         },
         error: (err) => {
           this.errorMessage = err.message || 'Failed to delete task';

@@ -1,0 +1,11 @@
+<div class="notification-container">
+  <div
+    *ngFor="let n of notifications; trackBy: trackById"
+    class="notification"
+    [class]="'notification notification-' + n.type"
+  >
+    <span class="notification-icon">{{ getIcon(n.type) }}</span>
+    <span class="notification-message">{{ n.message }}</span>
+    <button class="notification-close" (click)="dismiss(n.id)">×</button>
+  </div>
+</div>

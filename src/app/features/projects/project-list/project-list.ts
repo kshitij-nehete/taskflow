@@ -6,6 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ProjectService } from '../../../services/project.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-project-list',
@@ -38,6 +39,7 @@ export class ProjectList implements OnInit, OnDestroy {
   constructor(
     private projectService: ProjectService,
     private router: Router,
+    private notificationService: NotificationService,
   ) {}
 
   ngOnInit(): void {
@@ -82,6 +84,7 @@ export class ProjectList implements OnInit, OnDestroy {
           this.projects = [response.data, ...this.projects];
           this.cancelCreate();
           this.isCreating = false;
+          this.notificationService.success('Project created succesfully');
         },
         error: (err) => {
           this.errorMessage = err.message || 'Failed to create project';
@@ -117,6 +120,7 @@ export class ProjectList implements OnInit, OnDestroy {
         next: (response) => {
           this.projects = this.projects.map((p) => (p.id === projectId ? response.data : p));
           this.cancelEdit();
+          this.notificationService.success('Project updated');
         },
         error: (err) => {
           this.errorMessage = err.message || 'Failed to update project';
@@ -143,6 +147,7 @@ export class ProjectList implements OnInit, OnDestroy {
       .subscribe({
         next: (response) => {
           this.projects = this.projects.filter((p) => p.id !== project.id);
+          this.notificationService.success('Project deleted');
         },
         error: (err) => {
           this.errorMessage = err.message || 'Failed to delete project';
