@@ -1,22 +1,26 @@
 <div class="auth-container">
-  <div class="auth-card">
-    <h1 class="auth-title">Create Account</h1>
-    <p class="auth-subtitle">Join TaskFlow today</p>
+  <a routerLink="/" class="back-link">← back to home</a>
 
-    <!-- Error message from API -->
-    <div class="error-banner" *ngIf="errorMessage">
-      {{ errorMessage }}
+  <div class="auth-card">
+    <div class="terminal-hint">
+      <div class="terminal-dots">
+        <span class="dot dot-r"></span>
+        <span class="dot dot-y"></span>
+        <span class="dot dot-g"></span>
+      </div>
+      <span class="hint-label">auth.signup</span>
     </div>
 
-    <!--
-          [formGroup]="signupForm" connects this HTML form
-          to the FormGroup we defined in TypeScript.
-          The TypeScript FormGroup is the BOSS — HTML follows its rules.
-        -->
+    <h1 class="auth-title">Create <span class="hl">account.</span></h1>
+    <p class="auth-subtitle">// join taskflow in seconds</p>
+
+    <div class="error-banner" *ngIf="errorMessage">
+      <span class="error-prefix">[ERROR]</span> {{ errorMessage }}
+    </div>
+
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-      <!-- NAME FIELD -->
       <div class="form-group">
-        <label for="name">Full Name</label>
+        <label for="name">FULL NAME</label>
         <input
           type="text"
           id="name"
@@ -24,19 +28,14 @@
           placeholder="John Doe"
           [class.input-error]="isFieldInvalid('name')"
         />
-        <!--
-              formControlName="name" → links this input to signupForm.get('name')
-              No [(ngModel)] needed! The reactive form handles the binding.
-            -->
         <div class="error-text" *ngIf="isFieldInvalid('name')">
-          <span *ngIf="getFieldError('name', 'required')">Name is required</span>
-          <span *ngIf="getFieldError('name', 'minlength')">Name must be at least 2 characters</span>
+          <span *ngIf="getFieldError('name', 'required')">! name required</span>
+          <span *ngIf="getFieldError('name', 'minlength')">! min 2 characters</span>
         </div>
       </div>
 
-      <!-- EMAIL FIELD -->
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">EMAIL</label>
         <input
           type="email"
           id="email"
@@ -45,68 +44,55 @@
           [class.input-error]="isFieldInvalid('email')"
         />
         <div class="error-text" *ngIf="isFieldInvalid('email')">
-          <span *ngIf="getFieldError('email', 'required')">Email is required</span>
-          <span *ngIf="getFieldError('email', 'email')">Please enter a valid email</span>
+          <span *ngIf="getFieldError('email', 'required')">! email required</span>
+          <span *ngIf="getFieldError('email', 'email')">! invalid email format</span>
         </div>
       </div>
 
-      <!-- PASSWORD FIELD -->
       <div class="form-group">
-        <label for="password">Password</label>
+        <label for="password">PASSWORD</label>
         <input
           type="password"
           id="password"
           formControlName="password"
-          placeholder="At least 6 characters"
+          placeholder="••••••••"
           [class.input-error]="isFieldInvalid('password')"
         />
         <div class="error-text" *ngIf="isFieldInvalid('password')">
-          <span *ngIf="getFieldError('password', 'required')">Password is required</span>
-          <span *ngIf="getFieldError('password', 'minlength')">
-            Password must be at least 6 characters
-          </span>
+          <span *ngIf="getFieldError('password', 'required')">! password required</span>
+          <span *ngIf="getFieldError('password', 'minlength')">! min 6 characters</span>
         </div>
       </div>
 
-      <!-- CONFIRM PASSWORD FIELD -->
       <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
+        <label for="confirmPassword">CONFIRM PASSWORD</label>
         <input
           type="password"
           id="confirmPassword"
           formControlName="confirmPassword"
-          placeholder="Re-enter your password"
+          placeholder="••••••••"
           [class.input-error]="isFieldInvalid('confirmPassword')"
         />
         <div class="error-text" *ngIf="isFieldInvalid('confirmPassword')">
-          <span *ngIf="getFieldError('confirmPassword', 'required')">
-            Please confirm your password
-          </span>
+          <span *ngIf="getFieldError('confirmPassword', 'required')"
+            >! please confirm password</span
+          >
         </div>
-        <!--
-              Password mismatch error lives on the FORM GROUP, not the field.
-              Because it compares TWO fields, it's a group-level validator.
-            -->
         <div
           class="error-text"
           *ngIf="
             signupForm.errors?.['passwordMismatch'] && signupForm.get('confirmPassword')?.touched
           "
         >
-          Passwords do not match
+          ! passwords do not match
         </div>
       </div>
 
-      <!-- SUBMIT BUTTON -->
       <button type="submit" class="btn-primary" [disabled]="signupForm.invalid || isLoading">
-        {{ isLoading ? 'Creating Account...' : 'Create Account' }}
+        {{ isLoading ? '> creating account...' : '> create account' }}
       </button>
     </form>
 
-    <!-- LINK TO LOGIN -->
-    <p class="auth-footer">
-      Already have an account?
-      <a routerLink="/auth/login">Sign in</a>
-    </p>
+    <p class="auth-footer">already have an account? <a routerLink="/auth/login">sign in →</a></p>
   </div>
 </div>

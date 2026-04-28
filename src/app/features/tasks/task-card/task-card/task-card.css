@@ -1,68 +1,83 @@
 .task-card {
-  background: white;
-  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left-width: 3px;
   padding: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  border-left: 4px solid #e2e8f0;
-  transition: box-shadow 0.2s;
+  transition: all 0.2s;
 }
 
 .task-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: color-mix(in srgb, var(--accent) 25%, var(--border));
+  transform: translateY(-2px);
 }
 
-/* Priority border colors */
 .task-card.priority-high {
-  border-left-color: #ef4444;
+  border-left-color: var(--red);
 }
 .task-card.priority-medium {
-  border-left-color: #f59e0b;
+  border-left-color: var(--yellow);
 }
 .task-card.priority-low {
-  border-left-color: #10b981;
+  border-left-color: var(--accent);
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 8px;
   margin-bottom: 8px;
 }
 
 .card-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #1e293b;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-bright);
   margin: 0;
   flex: 1;
+  line-height: 1.4;
 }
 
 .card-actions {
   display: flex;
-  gap: 2px;
+  gap: 3px;
 }
 
 .btn-icon {
-  background: none;
-  border: none;
+  background: transparent;
+  border: 1px solid var(--border);
   cursor: pointer;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 14px;
-  transition: background 0.2s;
+  padding: 2px 8px;
+  transition: all 0.2s;
 }
+
+.icon-text {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
 .btn-icon:hover {
-  background: #f1f5f9;
+  border-color: var(--accent);
+}
+.btn-icon:hover .icon-text {
+  color: var(--accent);
 }
 .btn-icon.danger:hover {
-  background: #fef2f2;
+  border-color: var(--red);
+}
+.btn-icon.danger:hover .icon-text {
+  color: var(--red);
 }
 
 .card-desc {
-  color: #64748b;
-  font-size: 13px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  font-size: 12px;
   margin: 0 0 12px;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .card-meta {
@@ -70,69 +85,84 @@
   align-items: center;
   gap: 10px;
   margin-bottom: 8px;
+  flex-wrap: wrap;
 }
 
 .badge {
-  padding: 3px 10px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  padding: 2px 8px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  border: 1px solid;
 }
 
 .badge.priority-high {
-  background: #fef2f2;
-  color: #dc2626;
+  color: var(--red);
+  background: var(--red-soft);
+  border-color: color-mix(in srgb, var(--red) 30%, var(--border));
 }
+
 .badge.priority-medium {
-  background: #fffbeb;
-  color: #d97706;
+  color: var(--yellow);
+  background: var(--yellow-soft);
+  border-color: color-mix(in srgb, var(--yellow) 30%, var(--border));
 }
+
 .badge.priority-low {
-  background: #f0fdf4;
-  color: #16a34a;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
 }
 
 .assignee {
-  font-size: 12px;
-  color: #64748b;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
 }
 
 .card-due {
-  font-size: 12px;
-  color: #64748b;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
   margin-bottom: 12px;
+}
+
+.due-prefix {
+  color: var(--text-dim);
 }
 
 .status-actions {
   display: flex;
-  gap: 6px;
+  gap: 4px;
   margin-bottom: 8px;
 }
 
 .btn-status {
   flex: 1;
-  padding: 6px 8px;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  font-size: 11px;
+  padding: 5px 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 500;
   cursor: pointer;
-  background: white;
-  color: #64748b;
+  color: var(--text-muted);
   transition: all 0.2s;
+  letter-spacing: 0.03em;
 }
 
 .btn-status:hover:not(:disabled) {
-  background: #f8fafc;
-  border-color: #cbd5e1;
+  border-color: var(--text-muted);
+  color: var(--text-bright);
 }
 
 .btn-status.active {
-  background: #eef2ff;
-  color: #667eea;
-  border-color: #c7d2fe;
-  font-weight: 600;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  font-weight: 700;
 }
 
 .btn-status:disabled {
@@ -141,10 +171,11 @@
 
 .card-footer {
   padding-top: 8px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid var(--border-soft);
 }
 
 .card-date {
-  font-size: 11px;
-  color: #94a3b8;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
 }
