@@ -1,97 +1,90 @@
 <div class="page-container">
-  <!-- PAGE HEADER -->
   <div class="page-header">
     <div>
-      <h1>Projects</h1>
-      <p class="subtitle">Manage your TaskFlow projects</p>
+      <div class="section-label">projects</div>
+      <h1>Your <span class="hl">workspaces.</span></h1>
+      <p class="subtitle">// organize tasks into projects</p>
     </div>
-    <button class="btn-primary" (click)="showCreateForm = true">+ New Project</button>
+    <button class="btn-primary" (click)="showCreateForm = true">+ new project</button>
   </div>
 
-  <!-- CREATE PROJECT FORM (inline) -->
   <div class="create-form" *ngIf="showCreateForm">
-    <h3>Create New Project</h3>
+    <div class="form-header">
+      <span class="form-prefix">$</span>
+      <span class="mono">create new project</span>
+    </div>
     <div class="form-row">
       <div class="form-group">
-        <label>Project Name</label>
+        <label>NAME</label>
         <input
           type="text"
-          placeholder="Enter project name"
+          placeholder="Project name"
           [(ngModel)]="newProject.name"
           [class.input-error]="formSubmitted && !newProject.name"
         />
       </div>
       <div class="form-group">
-        <label>Description</label>
+        <label>DESCRIPTION</label>
         <input type="text" placeholder="Brief description" [(ngModel)]="newProject.description" />
       </div>
     </div>
     <div class="form-actions">
       <button class="btn-primary" (click)="createProject()" [disabled]="isCreating">
-        {{ isCreating ? 'Creating...' : 'Create Project' }}
+        {{ isCreating ? '> creating...' : '> create' }}
       </button>
-      <button class="btn-secondary" (click)="cancelCreate()">Cancel</button>
+      <button class="btn-secondary" (click)="cancelCreate()">cancel</button>
     </div>
   </div>
 
-  <!-- LOADING STATE -->
-  <div class="state-message" *ngIf="isLoading">Loading projects...</div>
+  <div class="state-message" *ngIf="isLoading">
+    <span class="mono">> loading projects...</span>
+  </div>
 
-  <!-- ERROR STATE -->
   <div class="state-message error" *ngIf="errorMessage">
-    {{ errorMessage }}
-    <button class="btn-retry" (click)="loadProjects()">Try Again</button>
+    <span class="mono">[ERROR] {{ errorMessage }}</span>
+    <button class="btn-retry" (click)="loadProjects()">> try again</button>
   </div>
 
-  <!-- EMPTY STATE -->
   <div class="state-message empty" *ngIf="!isLoading && !errorMessage && projects.length === 0">
-    <span class="empty-icon">📁</span>
-    <p>No projects yet. Create your first project!</p>
+    <div class="empty-icon">∅</div>
+    <p class="mono">// no projects yet — create your first one</p>
   </div>
 
-  <!-- PROJECT LIST -->
   <div class="project-grid" *ngIf="!isLoading && projects.length > 0">
     <div class="project-card" *ngFor="let project of projects; trackBy: trackByProjectId">
-      <!--
-            trackBy: trackByProjectId
-            ^^^^^^^^^^^^^^^^^^^^^^^^^
-            Teacher recognizing students by roll number.
-            When the list updates, Angular only redraws CHANGED cards,
-            not all of them. Without trackBy, all cards get destroyed
-            and recreated — wasteful for large lists.
-          -->
-
-      <!-- EDIT MODE -->
       <div *ngIf="editingProjectId === project.id; else viewMode">
         <div class="form-group">
-          <input type="text" [(ngModel)]="editProject.name" placeholder="Project name" />
+          <label>NAME</label>
+          <input type="text" [(ngModel)]="editProject.name" />
         </div>
         <div class="form-group">
-          <input type="text" [(ngModel)]="editProject.description" placeholder="Description" />
+          <label>DESCRIPTION</label>
+          <input type="text" [(ngModel)]="editProject.description" />
         </div>
         <div class="form-actions">
-          <button class="btn-save" (click)="saveEdit(project.id)">Save</button>
-          <button class="btn-secondary" (click)="cancelEdit()">Cancel</button>
+          <button class="btn-save" (click)="saveEdit(project.id)">> save</button>
+          <button class="btn-secondary" (click)="cancelEdit()">cancel</button>
         </div>
       </div>
 
-      <!-- VIEW MODE -->
       <ng-template #viewMode>
         <div class="card-header">
           <h3 class="card-title">{{ project.name }}</h3>
           <div class="card-actions">
-            <button class="btn-icon" (click)="startEdit(project)" title="Edit">✏️</button>
+            <button class="btn-icon" (click)="startEdit(project)" title="Edit">
+              <span class="icon-text">edit</span>
+            </button>
             <button class="btn-icon danger" (click)="deleteProject(project)" title="Delete">
-              🗑️
+              <span class="icon-text">del</span>
             </button>
           </div>
         </div>
-        <p class="card-desc">{{ project.description || 'No description' }}</p>
+        <p class="card-desc">{{ project.description || '// no description' }}</p>
         <div class="card-footer">
           <span class="card-date" *ngIf="project.createdAt">
-            Created {{ project.createdAt | timeAgo }}
+            {{ project.createdAt | timeAgo }}
           </span>
-          <button class="btn-view" (click)="viewTasks(project)">View Tasks →</button>
+          <button class="btn-view" (click)="viewTasks(project)">view tasks →</button>
         </div>
       </ng-template>
     </div>

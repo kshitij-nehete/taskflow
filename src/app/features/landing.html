@@ -1,0 +1,188 @@
+<!-- NAV -->
+<nav class="landing-nav">
+  <div class="logo">TaskFlow<span class="cursor"></span></div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How It Works</a>
+    <a routerLink="/auth/login" class="nav-link-cta">Sign In</a>
+    <a routerLink="/auth/signup" class="btn btn-primary btn-sm">Get Started →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="terminal-hint">
+    <div class="terminal-dots">
+      <span class="dot dot-r"></span>
+      <span class="dot dot-y"></span>
+      <span class="dot dot-g"></span>
+    </div>
+    <span class="hint-label">taskflow v1.0</span>
+  </div>
+
+  <div class="hero-eyebrow">
+    <span class="pulse"></span>
+    Modern Task Management
+  </div>
+
+  <h1>
+    <span class="hl">Ship</span> work.<br />
+    <em>Not status updates.</em>
+  </h1>
+
+  <p class="hero-sub">
+    Plan projects, track tasks, and watch them flow from TODO to DONE. Built for teams that value
+    momentum over meetings.
+  </p>
+
+  <div class="hero-actions">
+    <a routerLink="/auth/signup" class="btn btn-primary"> Start Building Free → </a>
+    <a href="#features" class="btn btn-secondary"> Explore Features </a>
+  </div>
+
+  <div class="status-pills">
+    <span class="status-pill todo">TODO</span>
+    <span class="arrow">→</span>
+    <span class="status-pill progress">IN_PROGRESS</span>
+    <span class="arrow">→</span>
+    <span class="status-pill done">DONE</span>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card reveal">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Status Columns</div>
+    </div>
+    <div class="stat-card reveal">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Tasks & Projects</div>
+    </div>
+    <div class="stat-card reveal">
+      <div class="stat-num">JWT</div>
+      <div class="stat-label">Secure Auth</div>
+    </div>
+    <div class="stat-card reveal">
+      <div class="stat-num">$0</div>
+      <div class="stat-label">To Start</div>
+    </div>
+  </div>
+</header>
+
+<!-- FEATURES -->
+<section id="features" class="section">
+  <div class="section-label">features</div>
+  <h2 class="section-title">
+    Everything you need to<br />
+    <span class="hl">stay</span> <em>focused.</em>
+  </h2>
+
+  <div class="feature-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon" style="background: var(--accent-soft)">⚡</div>
+      <h3>Project Management</h3>
+      <p>
+        Create projects, organize work, and keep teams aligned. Each project is a workspace for
+        related tasks.
+      </p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon" style="background: var(--blue-soft)">📋</div>
+      <h3>Kanban Board</h3>
+      <p>
+        Visual task board with TODO, IN_PROGRESS, and DONE columns. Move tasks with a single click.
+      </p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon" style="background: var(--yellow-soft)">🎯</div>
+      <h3>Priority Levels</h3>
+      <p>
+        HIGH, MEDIUM, LOW priorities with color-coded indicators. Always know what to tackle next.
+      </p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon" style="background: var(--purple-soft)">📊</div>
+      <h3>Live Dashboard</h3>
+      <p>
+        Real-time stats showing total, pending, in-progress, and completed tasks. Track your
+        velocity.
+      </p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon" style="background: var(--green-soft)">🔐</div>
+      <h3>Secure Auth</h3>
+      <p>JWT-based authentication, route guards, and protected APIs. Your data stays yours.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon" style="background: var(--red-soft)">🔍</div>
+      <h3>Smart Filters</h3>
+      <p>Filter by project, status, priority, or search. Find any task in seconds.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="section">
+  <div class="section-label">how it works</div>
+  <h2 class="section-title">Three steps. <span class="hl">Zero</span> <em>friction.</em></h2>
+
+  <div class="demo-container reveal">
+    <div class="demo-header">
+      <div class="terminal-dots">
+        <span class="dot dot-r"></span>
+        <span class="dot dot-y"></span>
+        <span class="dot dot-g"></span>
+      </div>
+      <span class="demo-title">workflow.taskflow — get things done</span>
+    </div>
+    <div class="demo-body">
+      <div class="wf-step">
+        <span class="wf-dot ok"></span>
+        <span class="wf-num">01</span>
+        <span class="wf-method create">CREATE</span>
+        <span class="wf-text">Project: "Q1 Launch"</span>
+        <span class="wf-status ok">200</span>
+        <span class="wf-time">42ms</span>
+      </div>
+      <div class="wf-step">
+        <span class="wf-dot ok"></span>
+        <span class="wf-num">02</span>
+        <span class="wf-method add">ADD</span>
+        <span class="wf-text"
+          >Task: "Design new dashboard" <span class="var">→ HIGH priority</span></span
+        >
+        <span class="wf-status ok">200</span>
+        <span class="wf-time">38ms</span>
+      </div>
+      <div class="wf-step">
+        <span class="wf-dot ok"></span>
+        <span class="wf-num">03</span>
+        <span class="wf-method move">MOVE</span>
+        <span class="wf-text">Status: TODO → IN_PROGRESS → DONE</span>
+        <span class="wf-status ok">200</span>
+        <span class="wf-time">29ms</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ai-insight reveal">
+    <div class="insight-label">✦ Built with modern stack</div>
+    <p>
+      <strong>Frontend:</strong> Angular 17+ standalone components, RxJS, Reactive Forms, JWT auth,
+      lazy loading, OnPush change detection. <strong>Backend:</strong> Spring Boot 3, Spring
+      Security, MongoDB, JWT filters. <strong>Deployed:</strong> Docker containers, ready to ship.
+    </p>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>Ready to <span class="hl">ship</span> <em>more?</em></h2>
+  <p>Create your first project in under a minute. No credit card required.</p>
+  <a routerLink="/auth/signup" class="btn btn-primary"> Get Started Free → </a>
+</div>
+
+<!-- FOOTER -->
+<footer class="landing-footer">
+  <div class="footer-brand">TaskFlow<span class="cursor-static">_</span></div>
+  <div class="footer-note">Built with Angular + Spring Boot · Kshitij</div>
+</footer>

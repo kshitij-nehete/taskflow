@@ -1,47 +1,47 @@
 <div class="dashboard-container">
-  <!-- WELCOME HEADER -->
   <div class="dashboard-header" *ngIf="currentUser$ | async as user">
     <div>
-      <h1>Welcome back, {{ user.name.split(' ')[0] }}! 👋</h1>
-      <p class="subtitle">Here's what's happening with your tasks today</p>
+      <div class="section-label">dashboard</div>
+      <h1>
+        Welcome back, <span class="hl">{{ user.name.split(' ')[0] }}.</span>
+      </h1>
+      <p class="subtitle">// here's what's happening with your tasks</p>
     </div>
-    <button class="btn-primary" routerLink="/tasks">View All Tasks →</button>
+    <a routerLink="/tasks" class="btn-action"> view all tasks → </a>
   </div>
 
-  <!-- LOADING STATE -->
-  <div class="state-message" *ngIf="isLoading">Loading dashboard...</div>
+  <div class="state-message" *ngIf="isLoading">
+    <span class="mono">> loading dashboard...</span>
+  </div>
 
-  <!-- ERROR STATE -->
   <div class="state-message error" *ngIf="errorMessage && !isLoading">
-    {{ errorMessage }}
-    <button class="btn-retry" (click)="loadDashboard()">Try Again</button>
+    <span class="mono">[ERROR] {{ errorMessage }}</span>
+    <button class="btn-retry" (click)="loadDashboard()">> try again</button>
   </div>
 
-  <!-- DASHBOARD CONTENT -->
   <div *ngIf="!isLoading && !errorMessage">
-    <!-- STATS GRID -->
     <div class="stats-grid">
-      <app-stats-card label="Total Tasks" [value]="stats.total" icon="📋" color="#667eea" />
-      <app-stats-card label="To Do" [value]="stats.todo" icon="⏳" color="#94a3b8" />
-      <app-stats-card label="In Progress" [value]="stats.inProgress" icon="🚀" color="#f59e0b" />
+      <app-stats-card label="Total Tasks" [value]="stats.total" icon="∑" color="#5eead4" />
+      <app-stats-card label="To Do" [value]="stats.todo" icon="○" color="#6b7280" />
+      <app-stats-card label="In Progress" [value]="stats.inProgress" icon="◐" color="#ffbd2e" />
       <app-stats-card
         label="Completed"
         [value]="stats.done"
-        icon="✅"
-        color="#10b981"
-        [subtitle]="completionRate + '% completion rate'"
+        icon="●"
+        color="#00ff9d"
+        [subtitle]="completionRate + '% completion'"
       />
     </div>
 
-    <!-- TWO COLUMN LAYOUT -->
     <div class="two-column">
-      <!-- RECENT PROJECTS -->
       <div class="panel">
         <div class="panel-header">
-          <h2>Recent Projects</h2>
-          <a routerLink="/projects" class="panel-link">See all</a>
+          <h2><span class="hl">//</span> recent projects</h2>
+          <a routerLink="/projects" class="panel-link">see all →</a>
         </div>
-        <div class="panel-empty" *ngIf="recentProjects.length === 0">No projects yet</div>
+        <div class="panel-empty" *ngIf="recentProjects.length === 0">
+          <span class="mono">// no projects yet</span>
+        </div>
         <div class="project-list" *ngIf="recentProjects.length > 0">
           <div
             class="project-item"
@@ -59,13 +59,14 @@
         </div>
       </div>
 
-      <!-- RECENT TASKS -->
       <div class="panel">
         <div class="panel-header">
-          <h2>Recent Tasks</h2>
-          <a routerLink="/tasks" class="panel-link">See all</a>
+          <h2><span class="hl">//</span> recent tasks</h2>
+          <a routerLink="/tasks" class="panel-link">see all →</a>
         </div>
-        <div class="panel-empty" *ngIf="recentTasks.length === 0">No tasks yet</div>
+        <div class="panel-empty" *ngIf="recentTasks.length === 0">
+          <span class="mono">// no tasks yet</span>
+        </div>
         <div class="task-list" *ngIf="recentTasks.length > 0">
           <div class="task-item" *ngFor="let t of recentTasks; trackBy: trackById">
             <div class="task-priority-bar" [class]="t.priority | priorityColor"></div>

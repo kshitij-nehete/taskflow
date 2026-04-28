@@ -1,18 +1,18 @@
 <div class="page-container">
-  <!-- PAGE HEADER -->
   <div class="page-header">
     <div>
-      <h1>{{ projectName || 'My Tasks' }}</h1>
-      <p class="subtitle">
-        {{ filteredTasks.length }} task{{ filteredTasks.length !== 1 ? 's' : '' }}
+      <div class="section-label">tasks</div>
+      <h1 *ngIf="projectName">{{ projectName }}</h1>
+      <h1 *ngIf="!projectName">Your <span class="hl">tasks.</span></h1>
+      <p class="subtitle mono">
+        // {{ filteredTasks.length }} task{{ filteredTasks.length !== 1 ? 's' : '' }}
       </p>
     </div>
-    <button class="btn-primary" (click)="showTaskForm = true">+ New Task</button>
+    <button class="btn-primary" (click)="showTaskForm = true">+ new task</button>
   </div>
 
   <!-- FILTERS -->
   <div class="filters-bar">
-    <!-- Project filter (if no specific project selected) -->
     <select
       [(ngModel)]="selectedProjectId"
       (ngModelChange)="loadTasks()"
@@ -23,15 +23,13 @@
       <option *ngFor="let p of projects" [value]="p.id">{{ p.name }}</option>
     </select>
 
-    <!-- Status filter -->
     <select [(ngModel)]="selectedStatus" (ngModelChange)="applyFilters()" class="filter-select">
       <option value="">All Statuses</option>
       <option value="TODO">To Do</option>
-      <option value="TODO">In_PROGRESS</option>
-      <option value="TODO">DONE</option>
+      <option value="IN_PROGRESS">In Progress</option>
+      <option value="DONE">Done</option>
     </select>
 
-    <!-- Priority filter -->
     <select [(ngModel)]="selectedPriority" (ngModelChange)="applyFilters()" class="filter-select">
       <option value="">All Priorities</option>
       <option value="HIGH">High</option>
@@ -39,34 +37,36 @@
       <option value="LOW">Low</option>
     </select>
 
-    <!-- Search -->
     <input
       type="text"
-      placeholder="Search tasks..."
+      placeholder="$ search tasks..."
       [(ngModel)]="searchTerm"
       (ngModelChange)="applyFilters()"
       class="search-input"
     />
   </div>
 
-  <!-- CREATE/EDIT TASK FORM -->
-  <div class="task-form-overlay" *ngIf="showTaskForm">
-    <div class="task-form-card">
-      <h3>{{ editingTaskId ? 'Edit Task' : 'Create New Task' }}</h3>
+  <!-- TASK FORM OVERLAY -->
+  <div class="task-form-overlay" *ngIf="showTaskForm" (click)="onOverlayClick($event)">
+    <div class="task-form-card" (click)="$event.stopPropagation()">
+      <div class="form-header">
+        <span class="form-prefix">$</span>
+        <span class="mono">{{ editingTaskId ? 'edit task' : 'create new task' }}</span>
+      </div>
       <form [formGroup]="taskForm" (ngSubmit)="onSubmitTask()">
         <div class="form-group">
-          <label>Title</label>
+          <label>TITLE</label>
           <input type="text" formControlName="title" placeholder="Task title" />
           <div
             class="error-text"
             *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched"
           >
-            Title is required
+            ! title required
           </div>
         </div>
 
         <div class="form-group">
-          <label>Description</label>
+          <label>DESCRIPTION</label>
           <textarea
             formControlName="description"
             placeholder="Task description"
@@ -76,16 +76,15 @@
 
         <div class="form-row">
           <div class="form-group">
-            <label>Priority</label>
+            <label>PRIORITY</label>
             <select formControlName="priority">
               <option value="LOW">Low</option>
               <option value="MEDIUM">Medium</option>
               <option value="HIGH">High</option>
             </select>
           </div>
-
           <div class="form-group">
-            <label>Status</label>
+            <label>STATUS</label>
             <select formControlName="status">
               <option value="TODO">To Do</option>
               <option value="IN_PROGRESS">In Progress</option>
@@ -96,52 +95,50 @@
 
         <div class="form-row">
           <div class="form-group">
-            <label>Project</label>
+            <label>PROJECT</label>
             <select formControlName="projectId">
               <option value="">Select project</option>
               <option *ngFor="let p of projects" [value]="p.id">{{ p.name }}</option>
             </select>
           </div>
-
           <div class="form-group">
-            <label>Due Date</label>
+            <label>DUE DATE</label>
             <input type="date" formControlName="dueDate" />
           </div>
         </div>
 
         <div class="form-actions">
           <button type="submit" class="btn-primary" [disabled]="taskForm.invalid || isSaving">
-            {{ isSaving ? 'Saving...' : editingTaskId ? 'Update Task' : 'Create Task' }}
+            {{ isSaving ? '> saving...' : editingTaskId ? '> update' : '> create' }}
           </button>
-          <button type="button" class="btn-secondary" (click)="cancelTaskForm()">Cancel</button>
+          <button type="button" class="btn-secondary" (click)="cancelTaskForm()">cancel</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- LOADING STATE -->
-  <div class="state-message" *ngIf="isLoading">Loading tasks...</div>
-
-  <!-- ERROR STATE -->
-  <div class="state-message error" *ngIf="errorMessage">
-    {{ errorMessage }}
-    <button class="btn-retry" (click)="loadTasks()">Try Again</button>
+  <div class="state-message" *ngIf="isLoading">
+    <span class="mono">> loading tasks...</span>
   </div>
 
-  <!-- EMPTY STATE -->
+  <div class="state-message error" *ngIf="errorMessage">
+    <span class="mono">[ERROR] {{ errorMessage }}</span>
+    <button class="btn-retry" (click)="loadTasks()">> try again</button>
+  </div>
+
   <div
     class="state-message empty"
     *ngIf="!isLoading && !errorMessage && filteredTasks.length === 0"
   >
-    <span class="empty-icon">✅</span>
-    <p>No tasks found. Create your first task!</p>
+    <div class="empty-icon">∅</div>
+    <p class="mono">// no tasks found — create your first task</p>
   </div>
 
-  <!-- TASK BOARD — 3 columns: TODO | IN_PROGRESS | DONE -->
+  <!-- KANBAN BOARD -->
   <div class="board" *ngIf="!isLoading && filteredTasks.length > 0">
     <div class="board-column" *ngFor="let col of columns">
       <div class="column-header" [style.borderColor]="col.color">
-        <h3>{{ col.label }}</h3>
+        <h3><span class="col-prefix">//</span> {{ col.label }}</h3>
         <span class="column-count">{{ getTasksByStatus(col.status).length }}</span>
       </div>
       <div class="column-tasks">
@@ -152,13 +149,6 @@
           (onEdit)="startEditTask($event)"
           (onDelete)="deleteTask($event)"
         />
-        <!--
-              [task]="task"        → @Input: passing data DOWN to the card
-              (onStatusChange)     → @Output: listening for events FROM the card
-              (onEdit)             → @Output: card says "edit me"
-              (onDelete)           → @Output: card says "delete me"
-              trackBy: trackByTaskId → performance: reuse cards by ID
-            -->
       </div>
     </div>
   </div>

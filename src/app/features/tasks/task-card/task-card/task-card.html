@@ -1,28 +1,29 @@
 <div class="task-card" [class]="'task-card ' + (task.priority | priorityColor)">
-  <!-- HEADER: Title + Actions -->
   <div class="card-header">
     <h4 class="card-title">{{ task.title }}</h4>
     <div class="card-actions">
-      <button class="btn-icon" (click)="onEdit.emit(task)" title="Edit">✏️</button>
-      <button class="btn-icon danger" (click)="onDelete.emit(task)" title="Delete">🗑️</button>
+      <button class="btn-icon" (click)="onEdit.emit(task)" title="Edit">
+        <span class="icon-text">edit</span>
+      </button>
+      <button class="btn-icon danger" (click)="onDelete.emit(task)" title="Delete">
+        <span class="icon-text">del</span>
+      </button>
     </div>
   </div>
 
-  <!-- DESCRIPTION -->
   <p class="card-desc" *ngIf="task.description">{{ task.description }}</p>
 
-  <!-- PRIORITY BADGE -->
   <div class="card-meta">
     <span class="badge" [class]="task.priority | priorityColor">
       {{ task.priority | statusLabel }}
     </span>
-    <span class="assignee" *ngIf="task.assigneeName"> 👤 {{ task.assigneeName }} </span>
+    <span class="assignee" *ngIf="task.assigneeName"> @ {{ task.assigneeName }} </span>
   </div>
 
-  <!-- DUE DATE -->
-  <div class="card-due" *ngIf="task.dueDate">📅 Due: {{ task.dueDate | date: 'mediumDate' }}</div>
+  <div class="card-due" *ngIf="task.dueDate">
+    <span class="due-prefix">due:</span> {{ task.dueDate | date: 'mediumDate' }}
+  </div>
 
-  <!-- STATUS BUTTONS -->
   <div class="status-actions">
     <button
       class="btn-status"
@@ -30,27 +31,26 @@
       [disabled]="task.status === 'TODO'"
       (click)="onStatusChange.emit({ task: task, newStatus: statuses[0] })"
     >
-      To Do
+      todo
     </button>
-        <button
+    <button
       class="btn-status"
       [class.active]="task.status === 'IN_PROGRESS'"
       [disabled]="task.status === 'IN_PROGRESS'"
       (click)="onStatusChange.emit({ task: task, newStatus: statuses[1] })"
     >
-      In Progress
+      in_progress
     </button>
-        <button
+    <button
       class="btn-status"
       [class.active]="task.status === 'DONE'"
       [disabled]="task.status === 'DONE'"
       (click)="onStatusChange.emit({ task: task, newStatus: statuses[2] })"
     >
-      Done
+      done
     </button>
   </div>
 
-  <!-- FOOTER -->
   <div class="card-footer" *ngIf="task.createdAt">
     <span class="card-date">{{ task.createdAt | timeAgo }}</span>
   </div>

@@ -250,6 +250,13 @@ export class TaskBoard implements OnInit, OnDestroy {
       });
   }
 
+  onOverlayClick(event: MouseEvent): void {
+    // Close form when clicking the dark backdrop
+    if ((event.target as HTMLElement).classList.contains('task-form-overlay')) {
+      this.cancelTaskForm();
+    }
+  }
+
   cancelTaskForm(): void {
     this.showTaskForm = false;
     this.editingTaskId = null;

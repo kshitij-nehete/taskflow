@@ -1,36 +1,35 @@
-<header class="header">
-  <!-- LEFT: App name -->
-  <div class="header-left">
-    <h1 class="logo" routerLink="/dashboard"><span class="logo-icon">✅</span> TaskFlow</h1>
-  </div>
+ <header class="header">
+      <div class="header-left">
+        <h1 class="logo" routerLink="/dashboard">
+          TaskFlow<span class="cursor"></span>
+        </h1>
+      </div>
 
-  <!-- CENTER: Navigation links -->
-  <nav class="header-nav">
-    <a routerLink="/dashboard" routerLinkActive="nav-active" class="nav-link"> Dashboard </a>
-    <a routerLink="/projects" routerLinkActive="nav-active" class="nav-link"> Projects </a>
-    <a routerLink="/tasks" routerLinkActive="nav-active" class="nav-link"> Tasks </a>
-  </nav>
-  <!--
-        routerLinkActive="nav-active"
-        Angular automatically adds the "nav-active" CSS class
-        when the current URL matches this link's routerLink.
-        So /dashboard highlights the Dashboard link.
-      -->
+      <nav class="header-nav">
+        <a routerLink="/dashboard"
+           routerLinkActive="nav-active"
+           class="nav-link">
+          <span class="nav-prefix">/</span>dashboard
+        </a>
+        <a routerLink="/projects"
+           routerLinkActive="nav-active"
+           class="nav-link">
+          <span class="nav-prefix">/</span>projects
+        </a>
+        <a routerLink="/tasks"
+           routerLinkActive="nav-active"
+           class="nav-link">
+          <span class="nav-prefix">/</span>tasks
+        </a>
+      </nav>
 
-  <!-- RIGHT: User info + Logout -->
-  <div class="header-right" *ngIf="currentUser$ | async as user">
-    <!--
-          currentUser$ | async as user
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-          1. currentUser$ is an Observable<User | null> from AuthService
-          2. | async subscribes to it and gets the latest value
-          3. "as user" stores the value in a local variable called "user"
-          4. *ngIf hides this section if user is null (not logged in)
-        -->
-    <div class="user-info">
-      <span class="user-avatar">{{ getInitials(user.name) }}</span>
-      <span class="user-name">{{ user.name }}</span>
-    </div>
-    <button class="btn-logout" (click)="onLogout()">Logout</button>
-  </div>
-</header>
+      <div class="header-right" *ngIf="currentUser$ | async as user">
+        <div class="user-info">
+          <span class="user-avatar">{{ getInitials(user.name) }}</span>
+          <span class="user-name">{{ user.name }}</span>
+        </div>
+        <button class="btn-logout" (click)="onLogout()">
+          <span class="logout-prefix">$</span> logout
+        </button>
+      </div>
+    </header>

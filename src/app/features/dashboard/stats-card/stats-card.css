@@ -1,47 +1,49 @@
 .stats-card {
-  background: white;
-  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left-width: 3px;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  border-top: 4px solid #e2e8f0;
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
+  transition: all 0.2s;
 }
 
 .stats-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 .stats-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.stats-icon {
-  font-size: 22px;
+  margin-bottom: 16px;
 }
 
 .stats-label {
-  font-size: 13px;
+  font-family: var(--font-mono);
+  font-size: 11px;
   font-weight: 600;
-  color: #64748b;
+  color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.1em;
+}
+
+.stats-icon {
+  font-size: 18px;
+  opacity: 0.7;
 }
 
 .stats-value {
+  font-family: var(--font-sans);
   font-size: 36px;
-  font-weight: 700;
-  color: #1e293b;
+  font-weight: 800;
+  color: var(--text-bright);
   line-height: 1;
+  letter-spacing: -0.03em;
 }
 
 .stats-subtitle {
-  font-size: 12px;
-  color: #94a3b8;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
   margin-top: 8px;
 }

@@ -1,87 +1,72 @@
 <div class="auth-container">
-  <div class="auth-card">
-    <h1 class="auth-title">Welcome Back</h1>
-    <p class="auth-subtitle">Sign in to TaskFlow</p>
+      <a routerLink="/" class="back-link">← back to home</a>
 
-    <!-- Error message from API -->
-    <div class="error-banner" *ngIf="errorMessage">
-      {{ errorMessage }}
+      <div class="auth-card">
+        <div class="terminal-hint">
+          <div class="terminal-dots">
+            <span class="dot dot-r"></span>
+            <span class="dot dot-y"></span>
+            <span class="dot dot-g"></span>
+          </div>
+          <span class="hint-label">auth.login</span>
+        </div>
+
+        <h1 class="auth-title">
+          Welcome <span class="hl">back.</span>
+        </h1>
+        <p class="auth-subtitle">// sign in to continue your workflow</p>
+
+        <div class="error-banner" *ngIf="errorMessage">
+          <span class="error-prefix">[ERROR]</span> {{ errorMessage }}
+        </div>
+
+        <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
+
+          <div class="form-group">
+            <label for="email">EMAIL</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              [(ngModel)]="credentials.email"
+              required
+              email
+              #emailField="ngModel"
+              [class.input-error]="emailField.invalid && emailField.touched"
+            >
+            <div class="error-text" *ngIf="emailField.invalid && emailField.touched">
+              <span *ngIf="emailField.errors?.['required']">! email required</span>
+              <span *ngIf="emailField.errors?.['email']">! invalid email format</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">PASSWORD</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="••••••••"
+              [(ngModel)]="credentials.password"
+              required
+              minlength="6"
+              #passwordField="ngModel"
+              [class.input-error]="passwordField.invalid && passwordField.touched"
+            >
+            <div class="error-text" *ngIf="passwordField.invalid && passwordField.touched">
+              <span *ngIf="passwordField.errors?.['required']">! password required</span>
+              <span *ngIf="passwordField.errors?.['minlength']">! min 6 characters</span>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary" [disabled]="loginForm.invalid || isLoading">
+            {{ isLoading ? '> signing in...' : '> sign in' }}
+          </button>
+        </form>
+
+        <p class="auth-footer">
+          new here? <a routerLink="/auth/signup">create an account →</a>
+        </p>
+      </div>
     </div>
-
-    <!--
-          #loginForm="ngForm" gives us a reference to the form's state.
-          We can check loginForm.valid, loginForm.invalid, etc.
-          
-          (ngSubmit) fires when user submits the form.
-          We pass the form reference so we can check validity before submitting.
-        -->
-    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
-      <!-- EMAIL FIELD -->
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="you@example.com"
-          [(ngModel)]="credentials.email"
-          required
-          email
-          #emailField="ngModel"
-          [class.input-error]="emailField.invalid && emailField.touched"
-        />
-        <!--
-              [(ngModel)]="credentials.email"  → Two-way binding (walkie-talkie)
-              required                         → Must not be empty
-              email                            → Must be valid email format
-              #emailField="ngModel"            → Reference to THIS field's state
-              emailField.invalid               → Is the field currently invalid?
-              emailField.touched               → Has the user clicked into and out of it?
-            -->
-        <div class="error-text" *ngIf="emailField.invalid && emailField.touched">
-          <span *ngIf="emailField.errors?.['required']">Email is required</span>
-          <span *ngIf="emailField.errors?.['email']">Please enter a valid email</span>
-        </div>
-      </div>
-
-      <!-- PASSWORD FIELD -->
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="Enter your password"
-          [(ngModel)]="credentials.password"
-          required
-          minlength="6"
-          #passwordField="ngModel"
-          [class.input-error]="passwordField.invalid && passwordField.touched"
-        />
-        <div class="error-text" *ngIf="passwordField.invalid && passwordField.touched">
-          <span *ngIf="passwordField.errors?.['required']">Password is required</span>
-          <span *ngIf="passwordField.errors?.['minlength']">
-            Password must be at least 6 characters
-          </span>
-        </div>
-      </div>
-
-      <!-- SUBMIT BUTTON -->
-      <button type="submit" class="btn-primary" [disabled]="loginForm.invalid || isLoading">
-        <!--
-              [disabled]="loginForm.invalid || isLoading"
-              Button is disabled when:
-                - Form has validation errors (loginForm.invalid)
-                - OR a login request is in progress (isLoading)
-            -->
-        {{ isLoading ? 'Signing in...' : 'Sign In' }}
-      </button>
-    </form>
-
-    <!-- LINK TO SIGNUP -->
-    <p class="auth-footer">
-      Don't have an account?
-      <a routerLink="/auth/signup">Create one</a>
-    </p>
-  </div>
-</div>

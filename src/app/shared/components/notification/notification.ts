@@ -37,22 +37,22 @@ export class Notification implements OnInit, OnDestroy {
     this.notifications = this.notifications.filter((n) => n.id !== id);
   }
 
-  getIcon(type: string): string {
+  getPrefix(type: string): string {
     switch (type) {
       case 'success':
-        return '✅';
+        return '[OK]';
       case 'error':
-        return '❌';
+        return '[ERR]';
       case 'warning':
-        return '⚠️';
+        return '[!]';
       case 'info':
-        return 'ℹ️';
+        return '[i]';
       default:
-        return 'ℹ️';
+        return '[i]';
     }
   }
 
   trackById(index: number, n: ToastNotification): number {
-    return n.id
+    return n.id;
   }
 }
