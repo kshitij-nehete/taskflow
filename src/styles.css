@@ -1,1 +1,184 @@
-/* You can add global styles to this file, and also import other style files */
+/* src/styles.css
+ * 
+ * GLOBAL THEME — Terminal Refined
+ * 
+ * All theme colors live here as CSS variables.
+ * Every component inherits these via var(--name).
+ * Change a value here → entire app updates.
+ */
+
+/* ========== THEME TOKENS ========== */
+:root {
+  /* Backgrounds */
+  --bg: #0b0e14;
+  --surface: #0f1219;
+  --surface-2: #151a24;
+  --surface-3: #1a2030;
+
+  /* Borders */
+  --border: #1e2432;
+  --border-soft: #171d2a;
+
+  /* Text */
+  --text: #d1d5db;
+  --text-bright: #f3f4f6;
+  --text-muted: #6b7280;
+  --text-dim: #3d4555;
+
+  /* Accent (the iconic green) */
+  --green: #00ff9d;
+  --green-soft: #00ff9d12;
+  --green-muted: #34d399;
+  --accent: #00ff9d;
+  --accent-soft: #00ff9d0d;
+  --accent-glow: rgba(0, 255, 157, 0.1);
+
+  /* Status colors */
+  --red: #ff5f56;
+  --red-soft: #ff5f5610;
+  --yellow: #ffbd2e;
+  --yellow-soft: #ffbd2e10;
+  --blue: #5eead4;
+  --blue-soft: #5eead410;
+  --purple: #c084fc;
+  --purple-soft: #c084fc12;
+
+  /* Background dot pattern */
+  --dot-color: rgba(0, 255, 157, 0.07);
+
+  /* Fonts */
+  --font-sans: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-serif: 'Instrument Serif', serif;
+}
+
+/* ========== RESET ========== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: #0b0e14 !important;
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* DOT PATTERN BACKGROUND (subtle, on every page) */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* ========== BASE ELEMENT STYLES ========== */
+input, textarea, select, button {
+  font-family: inherit;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* Sharp corners everywhere */
+input, textarea, select, button {
+  border-radius: 0 !important;
+}
+
+/* ========== UTILITY CLASSES ========== */
+.mono {
+  font-family: var(--font-mono);
+}
+
+.serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.hl {
+  color: var(--accent);
+}
+
+/* Section label "// label" pattern */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-label::before {
+  content: '//';
+  color: var(--text-dim);
+}
+
+/* Terminal-style dots (red/yellow/green window controls) */
+.terminal-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.terminal-dots .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.terminal-dots .dot-r { background: var(--red); }
+.terminal-dots .dot-y { background: var(--yellow); }
+.terminal-dots .dot-g { background: var(--accent); }
+
+/* Reveal animation (used on landing page) */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========== SCROLLBAR ========== */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--surface-3);
+}
